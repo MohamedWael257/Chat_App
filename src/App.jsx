@@ -4,6 +4,7 @@ import Homepage from './pages/homepage/Homepage'
 import SignInpage from './pages/signinpage/SignInpage'
 import SignUnpage from './pages/signuppage/SignUppage'
 import { useDispatch, useSelector } from 'react-redux'
+import 'react-toastify/dist/ReactToastify.css';
 import { authuser, removeActiveUserHandler, setActiveUserHandler } from './redux/slice/authslice'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase/config'
@@ -11,6 +12,7 @@ import Loader from './components/loader/Loader'
 import ProfilePage from './pages/profilepage/ProfilePage'
 import StatusPage from './pages/statuspage/StatusPage'
 import { AuthContext } from './context/AuthContext'
+import { ToastContainer } from 'react-toastify'
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -48,15 +50,18 @@ function App() {
     <>
       {isloading ? <Loader />
         :
-        <Routes>
-          <Route exact path='/' element={<ProtectedRoute><Homepage /></ProtectedRoute>} />
-          <Route path='/status' element={<ProtectedRoute><StatusPage /></ProtectedRoute>} />
-          {/* <Route path='/profile' element={<ProfilePage />} /> */}
-          {/* <Route path='/profile/:uid' element={<ProfilePage />} /> */}
-          <Route path='/signin' element={<SignInpage />} />
-          <Route path='signup' element={<SignUnpage />} />
-          <Route path="/*" element={<Navigate to="/" />} />
-        </Routes>
+        <>
+          <ToastContainer />
+          <Routes>
+            <Route exact path='/' element={<ProtectedRoute><Homepage /></ProtectedRoute>} />
+            <Route path='/status' element={<ProtectedRoute><StatusPage /></ProtectedRoute>} />
+            {/* <Route path='/profile' element={<ProfilePage />} /> */}
+            {/* <Route path='/profile/:uid' element={<ProfilePage />} /> */}
+            <Route path='/signin' element={<SignInpage />} />
+            <Route path='signup' element={<SignUnpage />} />
+            <Route path="/*" element={<Navigate to="/" />} />
+          </Routes>
+        </>
       }
     </>
   )
